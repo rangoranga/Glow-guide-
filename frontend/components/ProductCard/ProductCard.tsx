@@ -13,6 +13,8 @@ interface Product {
   concerns: string;
   key_ingredients: string;
   description: string;
+  how_to_use?: string;
+  size?: string;
   avg_rating: number;
   review_count: number;
   dermatologist_tested: boolean;
