@@ -20,6 +20,9 @@ interface Product {
   dermatologist_tested: boolean;
   clinically_proven: boolean;
   is_natural: boolean;
+  is_fragrance_free: boolean;
+  is_cruelty_free?: boolean;
+  is_vegan?: boolean;
   purchase_links?: Record<string, string>;
 }
 
