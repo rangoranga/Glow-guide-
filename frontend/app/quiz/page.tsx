@@ -75,7 +75,7 @@ export default function QuizPage() {
 
       router.push(`/results?userId=${data.user_id}`);
     } catch (error) {
-      setError("Could not save your quiz yet. Please make sure the backend is running on port 8000.");
+      setError("Could not save your quiz yet. Please wait a moment and try again. The free backend may be waking up.");
     } finally {
       setIsSubmitting(false);
     }

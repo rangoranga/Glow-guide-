@@ -52,7 +52,7 @@ function ResultsContent() {
           setLoading(false);
         })
         .catch(() => {
-          setError("Could not load your recommendations. Please make sure the backend is running on port 8000.");
+          setError("Could not load your recommendations yet. Please wait a moment and refresh. The free backend may be waking up.");
           setLoading(false);
         });
     } else {
