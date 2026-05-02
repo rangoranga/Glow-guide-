@@ -6,9 +6,8 @@ import { gatedPath } from "@/lib/session";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-dark-900">
-      {/* Animated gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-primary-600/20 via-secondary-600/20 to-accent-600/20 blur-3xl" />
+    <main className="min-h-screen bg-black text-white">
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.10),transparent_34rem)]" />
 
       {/* Hero Section */}
       <div className="relative z-10 container mx-auto px-4 py-20">
@@ -18,24 +17,19 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          {/* Logo/Icon */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="text-6xl mb-6"
-          >
-            ✨
-          </motion.div>
-
-          <h1 className="text-6xl md:text-8xl font-bold mb-6">
-            <span className="gradient-text">GlowGuide</span>
-          </h1>
-
-          <p className="text-xl md:text-2xl text-gray-300 mb-4">
-            Your skincare BFF that actually gets you 💅
+          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.35em] text-white/50">
+            Personalized skincare intelligence
           </p>
 
-          <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
+          <h1 className="mb-6 text-6xl font-black tracking-tight text-white md:text-8xl">
+            GlowGuide
+          </h1>
+
+          <p className="mb-4 text-xl text-white/80 md:text-2xl">
+            Minimal routines. Smarter product checks. Calmer skin decisions.
+          </p>
+
+          <p className="mx-auto mb-12 max-w-2xl text-lg text-white/55">
             Personalized product recommendations for Indian skin.
             Built with safety-first skincare guidance, curated for Gen Z.
           </p>
@@ -44,22 +38,22 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link href={gatedPath("/quiz")}>
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.95 }}
-                className="glow-button px-10 py-4 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 rounded-full text-lg font-bold text-white shadow-lg shadow-primary-500/30"
+                className="rounded-full bg-white px-10 py-4 text-lg font-bold text-black transition hover:bg-white/90"
               >
                 Find Your Glow →
               </motion.button>
             </Link>
             <Link
               href={gatedPath("/glowcheck")}
-              className="rounded-full border border-accent-400/50 px-8 py-4 text-lg font-bold text-accent-100 hover:border-accent-300 hover:text-white"
+              className="rounded-full border border-white/25 px-8 py-4 text-lg font-bold text-white/80 transition hover:border-white hover:text-white"
             >
               Try GlowCheck
             </Link>
             <Link
               href={gatedPath("/community")}
-              className="rounded-full border border-gray-700 px-8 py-4 text-lg font-bold text-gray-200 hover:border-primary-300 hover:text-white"
+              className="rounded-full border border-white/15 px-8 py-4 text-lg font-bold text-white/70 transition hover:border-white hover:text-white"
             >
               Community
             </Link>
@@ -71,20 +65,20 @@ export default function Home() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="grid md:grid-cols-3 gap-8 mt-32"
+          className="mt-32 grid gap-5 md:grid-cols-3"
         >
           <FeatureCard
-            emoji="🎯"
+            number="01"
             title="Personalized for You"
             description="Takes your skin type, tone, and concerns to find products that actually work"
           />
           <FeatureCard
-            emoji="🇮🇳"
+            number="02"
             title="Indian Market Only"
             description="Products you can actually buy in India. No international shipping headaches"
           />
           <FeatureCard
-            emoji="🧴"
+            number="03"
             title="Safety-first checks"
             description="GlowCheck helps you pause, simplify, or seek urgent care when symptoms look concerning"
           />
@@ -97,13 +91,17 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="mt-32 text-center"
         >
-          <p className="text-gray-400 mb-6">Made for ALL Indian skin tones</p>
-          <div className="flex justify-center gap-4 text-4xl">
-            <span className="float" style={{ animationDelay: "0s" }}>🤎</span>
-            <span className="float" style={{ animationDelay: "0.2s" }}>🤎</span>
-            <span className="float" style={{ animationDelay: "0.4s" }}>🤎</span>
-            <span className="float" style={{ animationDelay: "0.6s" }}>🤎</span>
-            <span className="float" style={{ animationDelay: "0.8s" }}>🤎</span>
+          <p className="mb-6 text-sm uppercase tracking-[0.28em] text-white/45">
+            Made for all Indian skin tones
+          </p>
+          <div className="mx-auto flex max-w-sm justify-center gap-3">
+            {["#f2d0b7", "#d7a57e", "#b57a52", "#875331", "#4d2b1a"].map((tone) => (
+              <span
+                key={tone}
+                className="h-12 w-12 rounded-full border border-white/20"
+                style={{ backgroundColor: tone }}
+              />
+            ))}
           </div>
         </motion.div>
 
@@ -112,20 +110,22 @@ export default function Home() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mx-auto mt-32 max-w-3xl rounded-2xl border border-gray-800 bg-white/[0.05] p-8 text-center"
+          className="mx-auto mt-32 max-w-3xl rounded-2xl border border-white/10 bg-white/[0.04] p-8 text-center"
         >
-          <p className="mb-3 text-sm font-semibold text-accent-300">Founder</p>
-          <h2 className="text-3xl font-black text-white md:text-4xl">
-            Built by Sriranka Varsine Bhupathe
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-white/45">
+            Founder
+          </p>
+          <h2 className="text-3xl font-black tracking-tight text-white md:text-4xl">
+            Built by Srirankavarsine Bhupathe
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-gray-300">
+          <p className="mx-auto mt-4 max-w-2xl text-white/60">
             GlowGuide is shaped around a simple idea: skincare advice should feel personal, understandable, and safer to act on.
           </p>
           <a
             href="https://www.linkedin.com/in/srirankavarsinebhupathe/"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex rounded-full border border-primary-400/50 px-6 py-3 font-bold text-primary-100 hover:border-primary-300 hover:text-white"
+            className="mt-6 inline-flex rounded-full border border-white/25 px-6 py-3 font-bold text-white/80 transition hover:border-white hover:text-white"
           >
             Connect on LinkedIn
           </a>
@@ -133,24 +133,24 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-gray-800 mt-32 py-8">
-        <div className="container mx-auto px-4 text-center text-gray-500">
-          <p>Made with 💜 for Indian skincare lovers</p>
+      <footer className="relative z-10 mt-32 border-t border-white/10 py-8">
+        <div className="container mx-auto px-4 text-center text-white/40">
+          <p>Made for Indian skincare lovers</p>
         </div>
       </footer>
     </main>
   );
 }
 
-function FeatureCard({ emoji, title, description }: { emoji: string; title: string; description: string }) {
+function FeatureCard({ number, title, description }: { number: string; title: string; description: string }) {
   return (
     <motion.div
       whileHover={{ y: -5 }}
-      className="glass p-8 rounded-2xl border border-gray-800"
+      className="rounded-2xl border border-white/10 bg-white/[0.035] p-8"
     >
-      <div className="text-4xl mb-4">{emoji}</div>
-      <h3 className="text-xl font-bold mb-2 text-white">{title}</h3>
-      <p className="text-gray-400">{description}</p>
+      <p className="mb-8 text-sm font-semibold text-white/35">{number}</p>
+      <h3 className="mb-3 text-xl font-bold text-white">{title}</h3>
+      <p className="text-sm leading-6 text-white/55">{description}</p>
     </motion.div>
   );
 }
