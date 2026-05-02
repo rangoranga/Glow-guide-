@@ -106,6 +106,30 @@ export default function Home() {
             <span className="float" style={{ animationDelay: "0.8s" }}>🤎</span>
           </div>
         </motion.div>
+
+        {/* Founder */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="mx-auto mt-32 max-w-3xl rounded-2xl border border-gray-800 bg-white/[0.05] p-8 text-center"
+        >
+          <p className="mb-3 text-sm font-semibold text-accent-300">Founder</p>
+          <h2 className="text-3xl font-black text-white md:text-4xl">
+            Built by Sriranka Varsine Bhupathe
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-gray-300">
+            GlowGuide is shaped around a simple idea: skincare advice should feel personal, understandable, and safer to act on.
+          </p>
+          <a
+            href="https://www.linkedin.com/in/srirankavarsinebhupathe/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex rounded-full border border-primary-400/50 px-6 py-3 font-bold text-primary-100 hover:border-primary-300 hover:text-white"
+          >
+            Connect on LinkedIn
+          </a>
+        </motion.section>
       </div>
 
       {/* Footer */}
