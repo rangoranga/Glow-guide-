@@ -27,8 +27,8 @@ interface Product {
   clinically_proven: boolean;
   is_natural: boolean;
   is_fragrance_free: boolean;
-  is_cruelty_free: boolean;
-  is_vegan: boolean;
+  is_cruelty_free?: boolean;
+  is_vegan?: boolean;
   how_to_use?: string;
   size?: string;
   currency: string;
