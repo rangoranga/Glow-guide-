@@ -65,7 +65,7 @@ function ResultsContent() {
         })
         .catch(() => {
           setProducts(buildLocalRecommendations(fallbackProducts, localQuiz));
-          setError("Using saved GlowGuide products while the live backend wakes up.");
+          setError("");
           setLoading(false);
         });
     } else if (userId) {
