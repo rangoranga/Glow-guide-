@@ -8,6 +8,8 @@ import { SkinTypeSelector } from "@/components/Quiz/SkinTypeSelector";
 import { SkinToneSelector } from "@/components/Quiz/SkinToneSelector";
 import { ConcernsSelector } from "@/components/Quiz/ConcernsSelector";
 import { PreferencesSelector } from "@/components/Quiz/PreferencesSelector";
+import { LoginGate } from "@/components/Auth/LoginGate";
+import { saveLocalQuiz } from "@/lib/localQuiz";
 
 const steps = [
   { id: 1, title: "Skin Type", description: "What's your skin like?" },
@@ -59,6 +61,7 @@ export default function QuizPage() {
     setIsSubmitting(true);
     setError("");
     try {
+      await apiFetch<{ status: string }>("/api/health").catch(() => ({ status: "warming" }));
       const data = await apiFetch<{ user_id: number }>("/api/quiz/submit", {
         method: "POST",
         body: JSON.stringify({
@@ -75,7 +78,16 @@ export default function QuizPage() {
 
       router.push(`/results?userId=${data.user_id}`);
     } catch (error) {
-      setError("Could not save your quiz yet. Please wait a moment and try again. The free backend may be waking up.");
+      const localQuiz = saveLocalQuiz({
+        skinType: formData.skinType,
+        skinTone: formData.skinTone,
+        concerns: formData.concerns,
+        sensitivityLevel: formData.sensitivityLevel,
+        budgetRange: formData.budgetRange,
+        prefersNatural: formData.prefersNatural,
+        prefersFragranceFree: formData.prefersFragranceFree,
+      });
+      router.push(`/results?localQuizId=${localQuiz.id}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -118,6 +130,7 @@ export default function QuizPage() {
 
   return (
     <main className="min-h-screen bg-dark-900 py-12 px-4">
+      <LoginGate />
       <div className="container mx-auto max-w-2xl">
         {/* Progress Bar */}
         <div className="mb-8">

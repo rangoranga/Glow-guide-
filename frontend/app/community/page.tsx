@@ -3,9 +3,12 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { LoginGate } from "@/components/Auth/LoginGate";
 import {
   AnonymousIdentity,
   ReactionPost,
+  analyzeGlowCheck,
+  addPost,
   createIdentity,
   getFollows,
   getIdentity,
@@ -14,8 +17,13 @@ import {
   toggleFollow,
   updatePost,
 } from "@/lib/glowcheck";
+import { gatedPath, getGlowGuideUser } from "@/lib/session";
 
 const voteLabels = ["Same happened to me", "This helped me", "Helpful", "Report"];
+
+function totalVotes(post: ReactionPost) {
+  return Object.values(post.votes).reduce((sum, count) => sum + count, 0);
+}
 
 export default function CommunityPage() {
   const [identity, setIdentity] = useState<AnonymousIdentity | null>(null);
@@ -24,6 +32,11 @@ export default function CommunityPage() {
   const [query, setQuery] = useState("");
   const [activeProduct, setActiveProduct] = useState("All products");
   const [follows, setFollows] = useState<number[]>([]);
+  const [sort, setSort] = useState<"Hot" | "New" | "Helpful">("Hot");
+  const [composerOpen, setComposerOpen] = useState(false);
+  const [discussionTitle, setDiscussionTitle] = useState("");
+  const [discussionBody, setDiscussionBody] = useState("");
+  const [discussionProduct, setDiscussionProduct] = useState("");
 
   useEffect(() => {
     setIdentity(getIdentity());
@@ -45,14 +58,19 @@ export default function CommunityPage() {
 
   const filteredPosts = useMemo(() => {
     const search = query.toLowerCase();
-    return posts.filter((post) => {
+    const filtered = posts.filter((post) => {
       const matchesProduct = activeProduct === "All products" || post.productName === activeProduct;
       const matchesSearch =
         !search ||
         `${post.productName} ${post.story} ${post.symptoms.join(" ")} ${post.aiRecommendation}`.toLowerCase().includes(search);
       return matchesProduct && matchesSearch;
     });
-  }, [activeProduct, posts, query]);
+    return filtered.sort((a, b) => {
+      if (sort === "New") return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      if (sort === "Helpful") return (b.votes.Helpful || 0) - (a.votes.Helpful || 0);
+      return totalVotes(b) - totalVotes(a);
+    });
+  }, [activeProduct, posts, query, sort]);
 
   const selectedProductPosts =
     activeProduct === "All products" ? filteredPosts : posts.filter((post) => post.productName === activeProduct);
@@ -62,9 +80,35 @@ export default function CommunityPage() {
 
   const requireIdentity = () => {
     if (identity) return identity;
-    const nextIdentity = createIdentity(alias);
+    const user = getGlowGuideUser();
+    const nextIdentity = createIdentity(alias || user?.name);
     setIdentity(nextIdentity);
     return nextIdentity;
+  };
+
+  const publishDiscussion = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const nextIdentity = requireIdentity();
+    const input = {
+      productName: discussionProduct || "General skincare discussion",
+      question: discussionTitle,
+      story: discussionBody,
+      timeline: "2+ weeks",
+      skinArea: [],
+      symptoms: ["Acne"],
+      severity: "Mild",
+      changedFactors: [],
+      mixedActives: [],
+      photoVisibility: "private" as const,
+      intent: "Post experience" as const,
+    };
+    const analysis = analyzeGlowCheck(input);
+    addPost(input, nextIdentity, analysis);
+    setPosts(getPosts());
+    setComposerOpen(false);
+    setDiscussionTitle("");
+    setDiscussionBody("");
+    setDiscussionProduct("");
   };
 
   const vote = (post: ReactionPost, label: string) => {
@@ -105,6 +149,7 @@ export default function CommunityPage() {
 
   return (
     <main className="min-h-screen bg-dark-900 px-4 py-8">
+      <LoginGate />
       <div className="fixed inset-0 bg-gradient-to-br from-primary-600/20 via-secondary-600/10 to-accent-600/20 blur-3xl" />
       <div className="relative z-10 mx-auto max-w-6xl">
         <header className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -112,10 +157,10 @@ export default function CommunityPage() {
             GlowGuide
           </Link>
           <nav className="flex flex-wrap gap-3 text-sm">
-            <Link className="rounded-full border border-gray-700 px-4 py-2 text-gray-200" href="/glowcheck">
+            <Link className="rounded-full border border-gray-700 px-4 py-2 text-gray-200" href={gatedPath("/glowcheck")}>
               GlowCheck
             </Link>
-            <Link className="rounded-full border border-gray-700 px-4 py-2 text-gray-200" href="/results">
+            <Link className="rounded-full border border-gray-700 px-4 py-2 text-gray-200" href={gatedPath("/results")}>
               Results
             </Link>
           </nav>
@@ -124,9 +169,9 @@ export default function CommunityPage() {
         <section className="mb-8 grid gap-5 lg:grid-cols-[1fr_0.8fr]">
           <div>
             <p className="mb-2 text-sm font-semibold text-accent-300">Community reactions</p>
-            <h1 className="text-4xl font-black md:text-6xl">Anonymous product experiences.</h1>
+            <h1 className="text-4xl font-black md:text-6xl">GlowTalk community.</h1>
             <p className="mt-4 max-w-2xl text-gray-300">
-              Browse self-reported reactions, product summaries, and follow-up outcomes. Posts are community experiences and do not mean a product is unsafe for everyone.
+              A skincare discussion feed for product reactions, routines, and real user updates. It works like a forum, but it feels like GlowGuide.
             </p>
           </div>
           <div className="rounded-2xl border border-gray-800 bg-white/[0.05] p-5">
@@ -149,17 +194,59 @@ export default function CommunityPage() {
           </div>
         </section>
 
-        <section className="mb-6 grid gap-3 md:grid-cols-[1fr_240px]">
+        <section className="mb-6 grid gap-3 md:grid-cols-[1fr_220px]">
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search product, symptom, story, or recommendation"
             className="rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 outline-none focus:border-primary-400"
           />
-          <Link href="/glowcheck" className="rounded-xl bg-gradient-to-r from-primary-500 to-secondary-500 px-5 py-3 text-center font-bold">
-            Post a reaction
+          <button onClick={() => setComposerOpen((open) => !open)} className="rounded-xl bg-gradient-to-r from-primary-500 to-secondary-500 px-5 py-3 text-center font-bold">
+            Start a thread
+          </button>
+        </section>
+
+        <section className="mb-6 flex flex-wrap gap-2">
+          {(["Hot", "New", "Helpful"] as const).map((item) => (
+            <button
+              key={item}
+              onClick={() => setSort(item)}
+              className={`rounded-full border px-4 py-2 text-sm font-bold ${sort === item ? "border-accent-300 bg-accent-500/20 text-white" : "border-gray-700 bg-dark-800 text-gray-300"}`}
+            >
+              {item}
+            </button>
+          ))}
+          <Link href={gatedPath("/glowcheck")} className="rounded-full border border-gray-700 px-4 py-2 text-sm font-bold text-gray-300">
+            Structured reaction check
           </Link>
         </section>
+
+        {composerOpen && (
+          <form onSubmit={publishDiscussion} className="mb-6 rounded-2xl border border-gray-800 bg-white/[0.06] p-5">
+            <h2 className="text-xl font-black">Start a GlowTalk thread</h2>
+            <input
+              value={discussionTitle}
+              onChange={(event) => setDiscussionTitle(event.target.value)}
+              placeholder="Title: What do you want to ask or share?"
+              className="mt-4 w-full rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 outline-none focus:border-primary-400"
+              required
+            />
+            <input
+              value={discussionProduct}
+              onChange={(event) => setDiscussionProduct(event.target.value)}
+              placeholder="Product, optional"
+              className="mt-3 w-full rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 outline-none focus:border-primary-400"
+            />
+            <textarea
+              value={discussionBody}
+              onChange={(event) => setDiscussionBody(event.target.value)}
+              placeholder="Add context, what you tried, what changed, and what you want the community to weigh in on."
+              className="mt-3 min-h-28 w-full rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 outline-none focus:border-primary-400"
+              required
+            />
+            <button className="mt-3 rounded-xl bg-white px-5 py-3 font-bold text-dark-900">Publish thread</button>
+          </form>
+        )}
 
         <section className="mb-6 flex gap-2 overflow-x-auto pb-2">
           {productNames.map((product) => (

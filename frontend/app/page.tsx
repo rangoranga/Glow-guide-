@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { gatedPath } from "@/lib/session";
 
 export default function Home() {
   return (
@@ -41,7 +42,7 @@ export default function Home() {
 
           {/* CTA Button */}
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/quiz">
+            <Link href={gatedPath("/quiz")}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -51,13 +52,13 @@ export default function Home() {
               </motion.button>
             </Link>
             <Link
-              href="/glowcheck"
+              href={gatedPath("/glowcheck")}
               className="rounded-full border border-accent-400/50 px-8 py-4 text-lg font-bold text-accent-100 hover:border-accent-300 hover:text-white"
             >
               Try GlowCheck
             </Link>
             <Link
-              href="/community"
+              href={gatedPath("/community")}
               className="rounded-full border border-gray-700 px-8 py-4 text-lg font-bold text-gray-200 hover:border-primary-300 hover:text-white"
             >
               Community

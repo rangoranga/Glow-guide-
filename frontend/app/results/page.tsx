@@ -7,6 +7,9 @@ import { motion } from "framer-motion";
 import { apiFetch } from "@/lib/api";
 import { ProductCard } from "@/components/ProductCard/ProductCard";
 import { StreakCounter } from "@/components/StreakCounter/StreakCounter";
+import { LoginGate } from "@/components/Auth/LoginGate";
+import { buildLocalRecommendations, getLocalQuiz } from "@/lib/localQuiz";
+import { gatedPath } from "@/lib/session";
 
 interface Product {
   id: number;
@@ -37,6 +40,7 @@ interface Product {
 function ResultsContent() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
+  const localQuizId = searchParams.get("localQuizId");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -45,7 +49,24 @@ function ResultsContent() {
   useEffect(() => {
     setLoading(true);
     setError("");
-    if (userId) {
+    if (localQuizId) {
+      const localQuiz = getLocalQuiz(localQuizId);
+      if (!localQuiz) {
+        setError("We could not find your saved local quiz. Please retake the quiz.");
+        setLoading(false);
+        return;
+      }
+
+      apiFetch<Product[]>("/api/products")
+        .then((data) => {
+          setProducts(buildLocalRecommendations(data, localQuiz));
+          setLoading(false);
+        })
+        .catch(() => {
+          setError("Could not load products yet. Please wait a moment and refresh. The free backend may be waking up.");
+          setLoading(false);
+        });
+    } else if (userId) {
       apiFetch<Product[]>(`/api/recommendations/${userId}`)
         .then((data) => {
           setProducts(data);
@@ -58,7 +79,7 @@ function ResultsContent() {
     } else {
       setLoading(false);
     }
-  }, [userId]);
+  }, [localQuizId, userId]);
 
   const filteredProducts =
     filter === "all"
@@ -90,13 +111,13 @@ function ResultsContent() {
         >
           <div className="mb-6 flex flex-wrap justify-center gap-3">
             <Link
-              href="/glowcheck"
+              href={gatedPath("/glowcheck")}
               className="rounded-full border border-accent-400/50 px-5 py-2 text-sm font-bold text-accent-100 hover:border-accent-300"
             >
               GlowCheck a product
             </Link>
             <Link
-              href="/community"
+              href={gatedPath("/community")}
               className="rounded-full border border-gray-700 px-5 py-2 text-sm font-bold text-gray-200 hover:border-primary-300"
             >
               Browse reactions
@@ -117,10 +138,10 @@ function ResultsContent() {
           </div>
         )}
 
-        {!userId && (
+        {!userId && !localQuizId && (
           <div className="mx-auto mb-8 max-w-2xl text-center">
             <Link
-              href="/quiz"
+              href={gatedPath("/quiz")}
               className="inline-flex rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 px-8 py-3 font-bold text-white"
             >
               Take the quiz
@@ -272,6 +293,7 @@ export default function ResultsPage() {
         <div className="text-6xl animate-pulse">✨</div>
       </div>
     }>
+      <LoginGate />
       <ResultsContent />
     </Suspense>
   );
