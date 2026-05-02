@@ -13,6 +13,8 @@ export interface AnonymousIdentity {
 export interface GlowCheckInput {
   productId?: number;
   productName: string;
+  productKind?: string;
+  productVariant?: string;
   question: string;
   timeline: string;
   skinArea: string[];
@@ -311,6 +313,8 @@ function seedPosts(): ReactionPost[] {
       anonymousName: "Anonymous Glow #2048",
       productId: 0,
       productName: "Minimalist 2% Salicylic Acid Serum",
+      productKind: "Serum",
+      productVariant: "2% Salicylic Acid acne-care serum",
       question: "Is this purging or irritation?",
       story: "I used it every night with a scrub and got tiny bumps around my chin after 3 days.",
       timeline: "2-3 days",

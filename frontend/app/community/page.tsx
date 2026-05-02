@@ -148,19 +148,19 @@ export default function CommunityPage() {
   };
 
   return (
-    <main className="min-h-screen bg-dark-900 px-4 py-8">
+    <main className="min-h-screen bg-black px-4 py-8 text-white">
       <LoginGate />
-      <div className="fixed inset-0 bg-gradient-to-br from-primary-600/20 via-secondary-600/10 to-accent-600/20 blur-3xl" />
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.10),transparent_34rem)]" />
       <div className="relative z-10 mx-auto max-w-6xl">
         <header className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <Link href="/" className="text-2xl font-black gradient-text">
+          <Link href="/" className="text-2xl font-black text-white">
             GlowGuide
           </Link>
           <nav className="flex flex-wrap gap-3 text-sm">
-            <Link className="rounded-full border border-gray-700 px-4 py-2 text-gray-200" href={gatedPath("/glowcheck")}>
+            <Link className="rounded-full border border-white/15 px-4 py-2 text-white/70 hover:border-white hover:text-white" href={gatedPath("/glowcheck")}>
               GlowCheck
             </Link>
-            <Link className="rounded-full border border-gray-700 px-4 py-2 text-gray-200" href={gatedPath("/results")}>
+            <Link className="rounded-full border border-white/15 px-4 py-2 text-white/70 hover:border-white hover:text-white" href={gatedPath("/results")}>
               Results
             </Link>
           </nav>
@@ -168,25 +168,25 @@ export default function CommunityPage() {
 
         <section className="mb-8 grid gap-5 lg:grid-cols-[1fr_0.8fr]">
           <div>
-            <p className="mb-2 text-sm font-semibold text-accent-300">Community reactions</p>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-white/45">Community reactions</p>
             <h1 className="text-4xl font-black md:text-6xl">GlowTalk community.</h1>
-            <p className="mt-4 max-w-2xl text-gray-300">
+            <p className="mt-4 max-w-2xl text-white/60">
               A skincare discussion feed for product reactions, routines, and real user updates. It works like a forum, but it feels like GlowGuide.
             </p>
           </div>
-          <div className="rounded-2xl border border-gray-800 bg-white/[0.05] p-5">
-            <p className="text-sm text-gray-400">Posting, reactions, follows, and photo requests use a local anonymous profile.</p>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+            <p className="text-sm text-white/50">Posting, reactions, follows, and photo requests use a local anonymous profile.</p>
             {identity ? (
-              <p className="mt-3 rounded-xl bg-accent-500/10 px-4 py-3 font-semibold text-accent-100">{identity.name}</p>
+              <p className="mt-3 rounded-xl border border-white/10 bg-black px-4 py-3 font-semibold text-white/80">{identity.name}</p>
             ) : (
               <div className="mt-3 flex flex-col gap-2">
                 <input
                   value={alias}
                   onChange={(event) => setAlias(event.target.value)}
                   placeholder="Alias, optional"
-                  className="rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 outline-none focus:border-primary-400"
+                  className="rounded-xl border border-white/15 bg-black px-4 py-3 outline-none focus:border-white"
                 />
-                <button onClick={() => setIdentity(createIdentity(alias))} className="rounded-xl bg-white px-4 py-3 font-bold text-dark-900">
+                <button onClick={() => setIdentity(createIdentity(alias))} className="rounded-xl bg-white px-4 py-3 font-bold text-black">
                   Continue anonymously
                 </button>
               </div>
@@ -199,9 +199,9 @@ export default function CommunityPage() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search product, symptom, story, or recommendation"
-            className="rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 outline-none focus:border-primary-400"
+            className="rounded-xl border border-white/15 bg-black px-4 py-3 outline-none focus:border-white"
           />
-          <button onClick={() => setComposerOpen((open) => !open)} className="rounded-xl bg-gradient-to-r from-primary-500 to-secondary-500 px-5 py-3 text-center font-bold">
+          <button onClick={() => setComposerOpen((open) => !open)} className="rounded-xl bg-white px-5 py-3 text-center font-bold text-black">
             Start a thread
           </button>
         </section>
@@ -211,40 +211,40 @@ export default function CommunityPage() {
             <button
               key={item}
               onClick={() => setSort(item)}
-              className={`rounded-full border px-4 py-2 text-sm font-bold ${sort === item ? "border-accent-300 bg-accent-500/20 text-white" : "border-gray-700 bg-dark-800 text-gray-300"}`}
+              className={`rounded-full border px-4 py-2 text-sm font-bold ${sort === item ? "border-white bg-white text-black" : "border-white/15 bg-black text-white/65"}`}
             >
               {item}
             </button>
           ))}
-          <Link href={gatedPath("/glowcheck")} className="rounded-full border border-gray-700 px-4 py-2 text-sm font-bold text-gray-300">
+          <Link href={gatedPath("/glowcheck")} className="rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-white/65">
             Structured reaction check
           </Link>
         </section>
 
         {composerOpen && (
-          <form onSubmit={publishDiscussion} className="mb-6 rounded-2xl border border-gray-800 bg-white/[0.06] p-5">
+          <form onSubmit={publishDiscussion} className="mb-6 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
             <h2 className="text-xl font-black">Start a GlowTalk thread</h2>
             <input
               value={discussionTitle}
               onChange={(event) => setDiscussionTitle(event.target.value)}
               placeholder="Title: What do you want to ask or share?"
-              className="mt-4 w-full rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 outline-none focus:border-primary-400"
+              className="mt-4 w-full rounded-xl border border-white/15 bg-black px-4 py-3 outline-none focus:border-white"
               required
             />
             <input
               value={discussionProduct}
               onChange={(event) => setDiscussionProduct(event.target.value)}
               placeholder="Product, optional"
-              className="mt-3 w-full rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 outline-none focus:border-primary-400"
+              className="mt-3 w-full rounded-xl border border-white/15 bg-black px-4 py-3 outline-none focus:border-white"
             />
             <textarea
               value={discussionBody}
               onChange={(event) => setDiscussionBody(event.target.value)}
               placeholder="Add context, what you tried, what changed, and what you want the community to weigh in on."
-              className="mt-3 min-h-28 w-full rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 outline-none focus:border-primary-400"
+              className="mt-3 min-h-28 w-full rounded-xl border border-white/15 bg-black px-4 py-3 outline-none focus:border-white"
               required
             />
-            <button className="mt-3 rounded-xl bg-white px-5 py-3 font-bold text-dark-900">Publish thread</button>
+            <button className="mt-3 rounded-xl bg-white px-5 py-3 font-bold text-black">Publish thread</button>
           </form>
         )}
 
@@ -255,8 +255,8 @@ export default function CommunityPage() {
               onClick={() => setActiveProduct(product)}
               className={`shrink-0 rounded-full border px-4 py-2 text-sm ${
                 activeProduct === product
-                  ? "border-primary-300 bg-primary-500/20 text-white"
-                  : "border-gray-700 bg-dark-800 text-gray-300"
+                  ? "border-white bg-white text-black"
+                  : "border-white/15 bg-black text-white/65"
               }`}
             >
               {product}
@@ -264,18 +264,18 @@ export default function CommunityPage() {
           ))}
         </section>
 
-        <section className="mb-8 rounded-2xl border border-gray-800 bg-white/[0.05] p-5">
+        <section className="mb-8 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
           <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
             <div>
               <h2 className="text-2xl font-black">{activeProduct === "All products" ? "Reaction summary" : activeProduct}</h2>
-              <p className="mt-2 text-sm text-gray-400">
+              <p className="mt-2 text-sm text-white/50">
                 {summary.riskLabel}. This does not mean the product is unsafe for everyone. It means verified GlowGuide reports show a pattern among some users.
               </p>
             </div>
             {activeProduct !== "All products" && (
               <button
                 onClick={followProduct}
-                className="rounded-full border border-accent-300 px-4 py-2 text-sm font-bold text-accent-100"
+                className="rounded-full border border-white/20 px-4 py-2 text-sm font-bold text-white/75"
               >
                 {isFollowing ? "Following" : "Follow product"}
               </button>
@@ -305,7 +305,7 @@ export default function CommunityPage() {
             />
           ))}
           {filteredPosts.length === 0 && (
-            <div className="rounded-2xl border border-gray-800 bg-white/[0.05] p-10 text-center text-gray-400">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-10 text-center text-white/45">
               No reaction posts match this search yet.
             </div>
           )}
@@ -317,8 +317,8 @@ export default function CommunityPage() {
 
 function SummaryTile({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-xl border border-gray-800 bg-dark-800/70 p-4">
-      <p className="text-xs text-gray-500">{label}</p>
+    <div className="rounded-xl border border-white/10 bg-black p-4">
+      <p className="text-xs text-white/35">{label}</p>
       <p className="mt-1 text-lg font-black">{value}</p>
     </div>
   );
@@ -326,18 +326,18 @@ function SummaryTile({ label, value }: { label: string; value: string | number }
 
 function SummaryList({ title, entries, suffix }: { title: string; entries: [string, number][]; suffix: string }) {
   return (
-    <div className="rounded-xl border border-gray-800 bg-dark-800/70 p-4">
+    <div className="rounded-xl border border-white/10 bg-black p-4">
       <h3 className="mb-3 font-bold">{title}</h3>
       {entries.length > 0 ? (
         <div className="space-y-2">
           {entries.map(([label, count]) => (
-            <p key={label} className="text-sm text-gray-300">
+            <p key={label} className="text-sm text-white/60">
               {count} {suffix} {label}
             </p>
           ))}
         </div>
       ) : (
-        <p className="text-sm text-gray-500">Not enough data yet.</p>
+        <p className="text-sm text-white/35">Not enough data yet.</p>
       )}
     </div>
   );
@@ -361,25 +361,30 @@ function ReactionCard({
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(index * 0.04, 0.2) }}
-      className="rounded-2xl border border-gray-800 bg-white/[0.05] p-5"
+      className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"
     >
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
-          <p className="text-sm font-semibold text-accent-300">{post.anonymousName}</p>
+          <p className="text-sm font-semibold text-white/45">{post.anonymousName}</p>
           <h2 className="mt-1 text-2xl font-black">{post.productName}</h2>
-          <p className="mt-1 text-sm text-gray-400">
+          {(post.productKind || post.productVariant) && (
+            <p className="mt-1 text-sm text-white/70">
+              {[post.productKind, post.productVariant].filter(Boolean).join(" · ")}
+            </p>
+          )}
+          <p className="mt-1 text-sm text-white/45">
             {post.timeline} · {post.skinArea.join(", ") || "Area not shared"} · {post.severity}
             {post.skinType ? ` · ${post.skinType} skin` : ""}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           {post.credibilityBadges.map((badge) => (
-            <span key={badge} className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-300">
+            <span key={badge} className="rounded-full border border-white/15 px-3 py-1 text-xs text-white/55">
               {badge}
             </span>
           ))}
           {post.verifiedStatus && (
-            <span className="rounded-full border border-accent-300 bg-accent-500/20 px-3 py-1 text-xs font-bold text-accent-100">
+            <span className="rounded-full border border-white bg-white px-3 py-1 text-xs font-bold text-black">
               GlowGuide reviewed
             </span>
           )}
@@ -388,39 +393,39 @@ function ReactionCard({
 
       <div className="mt-4 flex flex-wrap gap-2">
         {post.symptoms.map((symptom) => (
-          <span key={symptom} className="rounded-full bg-red-500/10 px-3 py-1 text-xs text-red-100">
+          <span key={symptom} className="rounded-full border border-white/15 px-3 py-1 text-xs text-white/60">
             {symptom}
           </span>
         ))}
       </div>
 
-      {post.story && <p className="mt-4 text-gray-200">{post.story}</p>}
+      {post.story && <p className="mt-4 text-white/75">{post.story}</p>}
 
-      <div className="mt-4 rounded-xl border border-primary-400/30 bg-primary-500/10 p-4">
-        <p className="text-sm font-bold text-primary-100">{post.aiRecommendation}</p>
-        <p className="mt-1 text-sm text-gray-300">{post.aiExplanation}</p>
+      <div className="mt-4 rounded-xl border border-white/10 bg-black p-4">
+        <p className="text-sm font-bold text-white">{post.aiRecommendation}</p>
+        <p className="mt-1 text-sm text-white/55">{post.aiExplanation}</p>
       </div>
 
       <div className="mt-4">
         {post.photoDataUrl && post.photoVisibility === "public" ? (
-          <img src={post.photoDataUrl} alt="Public reaction" className="max-h-80 w-full rounded-xl border border-gray-800 object-cover" />
+          <img src={post.photoDataUrl} alt="Public reaction" className="max-h-80 w-full rounded-xl border border-white/10 object-cover" />
         ) : post.photoDataUrl ? (
-          <div className="flex items-center justify-between rounded-xl border border-gray-800 bg-dark-800/70 px-4 py-3 text-sm text-gray-300">
+          <div className="flex items-center justify-between rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white/60">
             <span>Photo private</span>
-            <button onClick={() => onRequestPhoto()} className="rounded-full border border-gray-700 px-3 py-1 text-xs">
+            <button onClick={() => onRequestPhoto()} className="rounded-full border border-white/15 px-3 py-1 text-xs">
               Request photo access
             </button>
           </div>
         ) : (
-          <p className="text-sm text-gray-500">No photo attached</p>
+          <p className="text-sm text-white/35">No photo attached</p>
         )}
       </div>
 
       {post.outcome && (
-        <div className="mt-4 rounded-xl border border-accent-400/30 bg-accent-500/10 p-4 text-sm text-accent-50">
+        <div className="mt-4 rounded-xl border border-white/10 bg-black p-4 text-sm text-white/70">
           <p className="font-bold">30-day follow-up</p>
           <p className="mt-1">{post.outcome}</p>
-          <p className="text-gray-300">Recommend now: {post.wouldRecommend || "Not shared"}</p>
+          <p className="text-white/55">Recommend now: {post.wouldRecommend || "Not shared"}</p>
         </div>
       )}
 
@@ -429,15 +434,15 @@ function ReactionCard({
           <button
             key={label}
             onClick={() => onVote(label)}
-            className="rounded-full border border-gray-700 px-3 py-2 text-xs text-gray-300 hover:border-primary-400 hover:text-white"
+            className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/60 hover:border-white hover:text-white"
           >
             {label} · {post.votes[label] || 0}
           </button>
         ))}
       </div>
 
-      <details className="mt-4 rounded-xl border border-gray-800 bg-dark-800/60 p-4">
-        <summary className="cursor-pointer text-sm font-bold text-gray-200">Add 30-day follow-up</summary>
+      <details className="mt-4 rounded-xl border border-white/10 bg-black p-4">
+        <summary className="cursor-pointer text-sm font-bold text-white/70">Add 30-day follow-up</summary>
         <form onSubmit={onFollowUp} className="mt-4 grid gap-3 md:grid-cols-2">
           <Select name="improved" label="Did your skin improve?" values={["Yes", "No", "A little", "Not sure"]} />
           <Select name="stoppedProduct" label="Did you stop the product?" values={["Stopped", "Continued", "Paused then restarted"]} />
@@ -453,7 +458,7 @@ function ReactionCard({
             ]}
           />
           <Select name="wouldRecommend" label="Would you recommend it now?" values={["Yes", "No", "Only for some skin types", "Not sure"]} />
-          <button className="rounded-xl bg-white px-4 py-3 font-bold text-dark-900 md:col-span-2">Save follow-up</button>
+          <button className="rounded-xl bg-white px-4 py-3 font-bold text-black md:col-span-2">Save follow-up</button>
         </form>
       </details>
     </motion.article>
@@ -462,9 +467,9 @@ function ReactionCard({
 
 function Select({ name, label, values }: { name: string; label: string; values: string[] }) {
   return (
-    <label className="text-sm text-gray-300">
+    <label className="text-sm text-white/60">
       {label}
-      <select name={name} className="mt-2 w-full rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 text-white">
+      <select name={name} className="mt-2 w-full rounded-xl border border-white/15 bg-black px-4 py-3 text-white">
         {values.map((value) => (
           <option key={value}>{value}</option>
         ))}

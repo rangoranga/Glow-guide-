@@ -10,6 +10,7 @@ import { StreakCounter } from "@/components/StreakCounter/StreakCounter";
 import { LoginGate } from "@/components/Auth/LoginGate";
 import { buildLocalRecommendations, getLocalQuiz } from "@/lib/localQuiz";
 import { gatedPath } from "@/lib/session";
+import { fallbackProducts } from "@/lib/fallbackProducts";
 
 interface Product {
   id: number;
@@ -63,7 +64,8 @@ function ResultsContent() {
           setLoading(false);
         })
         .catch(() => {
-          setError("Could not load products yet. Please wait a moment and refresh. The free backend may be waking up.");
+          setProducts(buildLocalRecommendations(fallbackProducts, localQuiz));
+          setError("Using saved GlowGuide products while the live backend wakes up.");
           setLoading(false);
         });
     } else if (userId) {
