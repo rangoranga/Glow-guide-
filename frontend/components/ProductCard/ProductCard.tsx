@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { buildRetailSearchLinks } from "@/lib/glowcheck";
 
 interface Product {
   id: number;
@@ -34,6 +36,8 @@ interface Props {
 }
 
 export function ProductCard({ product, matchScore, reason, index }: Props) {
+  const retailLinks = buildRetailSearchLinks(product);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -124,6 +128,21 @@ export function ProductCard({ product, matchScore, reason, index }: Props) {
         </div>
       )}
 
+      <div className="mb-4 flex gap-2">
+        <Link
+          href={`/glowcheck?product=${encodeURIComponent(`${product.brand} ${product.name}`)}`}
+          className="rounded-full border border-accent-400/40 px-4 py-2 text-sm font-semibold text-accent-200 hover:border-accent-300 hover:text-white"
+        >
+          GlowCheck
+        </Link>
+        <Link
+          href={`/community?product=${encodeURIComponent(`${product.brand} ${product.name}`)}`}
+          className="rounded-full border border-gray-700 px-4 py-2 text-sm font-semibold text-gray-300 hover:border-primary-300 hover:text-white"
+        >
+          Reactions
+        </Link>
+      </div>
+
       {/* Price and Buy Links */}
       <div className="flex items-center justify-between pt-4 border-t border-gray-800">
         <div>
@@ -131,26 +150,22 @@ export function ProductCard({ product, matchScore, reason, index }: Props) {
           <span className="text-sm text-gray-500 ml-1">{product.currency}</span>
         </div>
         <div className="flex gap-2">
-          {product.purchase_links?.nykaa && (
-            <a
-              href={product.purchase_links.nykaa}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-[#e81ca2] text-white rounded-full text-sm font-medium hover:bg-[#c4178a] transition-colors"
-            >
-              Nykaa
-            </a>
-          )}
-          {product.purchase_links?.amazon && (
-            <a
-              href={product.purchase_links.amazon}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 bg-[#00d4a3] text-black rounded-full text-sm font-medium hover:bg-[#00b894] transition-colors"
-            >
-              Amazon
-            </a>
-          )}
+          <a
+            href={retailLinks.nykaa}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-[#e81ca2] text-white rounded-full text-sm font-medium hover:bg-[#c4178a] transition-colors"
+          >
+            Nykaa
+          </a>
+          <a
+            href={retailLinks.amazon}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 bg-[#00d4a3] text-black rounded-full text-sm font-medium hover:bg-[#00b894] transition-colors"
+          >
+            Amazon
+          </a>
         </div>
       </div>
     </motion.div>

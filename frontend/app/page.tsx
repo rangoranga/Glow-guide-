@@ -36,19 +36,33 @@ export default function Home() {
 
           <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
             Personalized product recommendations for Indian skin.
-            Backed by dermatologists, curated for Gen Z.
+            Built with safety-first skincare guidance, curated for Gen Z.
           </p>
 
           {/* CTA Button */}
-          <Link href="/quiz">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="glow-button px-12 py-4 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 rounded-full text-lg font-bold text-white shadow-lg shadow-primary-500/30"
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href="/quiz">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="glow-button px-10 py-4 bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 rounded-full text-lg font-bold text-white shadow-lg shadow-primary-500/30"
+              >
+                Find Your Glow →
+              </motion.button>
+            </Link>
+            <Link
+              href="/glowcheck"
+              className="rounded-full border border-accent-400/50 px-8 py-4 text-lg font-bold text-accent-100 hover:border-accent-300 hover:text-white"
             >
-              Find Your Glow →
-            </motion.button>
-          </Link>
+              Try GlowCheck
+            </Link>
+            <Link
+              href="/community"
+              className="rounded-full border border-gray-700 px-8 py-4 text-lg font-bold text-gray-200 hover:border-primary-300 hover:text-white"
+            >
+              Community
+            </Link>
+          </div>
         </motion.div>
 
         {/* Features */}
@@ -69,9 +83,9 @@ export default function Home() {
             description="Products you can actually buy in India. No international shipping headaches"
           />
           <FeatureCard
-            emoji="👩‍⚕️"
-            title="Doctor Approved"
-            description="Recommendations backed by dermatologists and clinical research"
+            emoji="🧴"
+            title="Safety-first checks"
+            description="GlowCheck helps you pause, simplify, or seek urgent care when symptoms look concerning"
           />
         </motion.div>
 
