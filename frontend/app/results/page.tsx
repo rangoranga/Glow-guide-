@@ -113,10 +113,10 @@ function ResultsContent() {
         >
           <div className="mb-6 flex flex-wrap justify-center gap-3">
             <Link
-              href={gatedPath("/glowcheck")}
+              href={gatedPath("/barecheck")}
               className="rounded-full border border-accent-400/50 px-5 py-2 text-sm font-bold text-accent-100 hover:border-accent-300"
             >
-              GlowCheck a product
+              BareCheck a product
             </Link>
             <Link
               href={gatedPath("/community")}
@@ -125,7 +125,7 @@ function ResultsContent() {
               Browse reactions
             </Link>
           </div>
-          <h1 className="text-5xl font-bold mb-4 gradient-text">Your Glow Kit</h1>
+          <h1 className="text-5xl font-bold mb-4 gradient-text">Your BareIQ Kit</h1>
           <p className="text-gray-400 text-lg">
             {products.length > 0
               ? `${products.length} products picked for your profile`

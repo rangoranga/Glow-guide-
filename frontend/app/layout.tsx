@@ -5,8 +5,8 @@ import "../styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GlowGuide - Your Skincare BFF",
-  description: "Personalized skincare recommendations for Indian skin. Backed by science, loved by Gen Z.",
+  title: "BareIQ - Skincare Product Checks",
+  description: "Minimal skincare recommendations, product reaction checks, and community reports for Indian skin.",
 };
 
 export default function RootLayout({

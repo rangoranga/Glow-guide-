@@ -1,4 +1,4 @@
-export interface GlowProduct {
+export interface BareProduct {
   id: number;
   name: string;
   brand: string;
@@ -10,7 +10,7 @@ export interface AnonymousIdentity {
   name: string;
 }
 
-export interface GlowCheckInput {
+export interface BareCheckInput {
   productId?: number;
   productName: string;
   productKind?: string;
@@ -29,7 +29,7 @@ export interface GlowCheckInput {
   skinType?: string;
 }
 
-export interface GlowCheckAnalysis {
+export interface BareCheckAnalysis {
   recommendation:
     | "Safe to continue carefully"
     | "Monitor closely"
@@ -43,11 +43,11 @@ export interface GlowCheckAnalysis {
   verifiedStatus: boolean;
 }
 
-export interface ReactionPost extends GlowCheckInput {
+export interface ReactionPost extends BareCheckInput {
   id: string;
   anonymousUserId: string;
   anonymousName: string;
-  aiRecommendation: GlowCheckAnalysis["recommendation"];
+  aiRecommendation: BareCheckAnalysis["recommendation"];
   aiExplanation: string;
   saferSteps: string[];
   credibilityBadges: string[];
@@ -99,9 +99,9 @@ export const MIXED_ACTIVES = [
   "Prescription acne medicine",
 ];
 
-const IDENTITY_KEY = "glowcheck_identity";
-const POSTS_KEY = "glowcheck_posts";
-const FOLLOWS_KEY = "glowcheck_product_follows";
+const IDENTITY_KEY = "barecheck_identity";
+const POSTS_KEY = "barecheck_posts";
+const FOLLOWS_KEY = "barecheck_product_follows";
 
 export function buildRetailSearchLinks(product: { brand: string; name: string }) {
   const query = encodeURIComponent(`${product.brand} ${product.name}`.trim()).replace(/%20/g, "+");
@@ -120,7 +120,7 @@ export function getIdentity(): AnonymousIdentity | null {
 
 export function createIdentity(alias?: string): AnonymousIdentity {
   const id = crypto.randomUUID();
-  const name = alias?.trim() || `Anonymous Glow #${Math.floor(1000 + Math.random() * 9000)}`;
+  const name = alias?.trim() || `Anonymous Bare #${Math.floor(1000 + Math.random() * 9000)}`;
   const identity = { id, name };
   window.localStorage.setItem(IDENTITY_KEY, JSON.stringify(identity));
   return identity;
@@ -136,7 +136,7 @@ export function savePosts(posts: ReactionPost[]) {
   window.localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
 }
 
-export function addPost(input: GlowCheckInput, identity: AnonymousIdentity, analysis: GlowCheckAnalysis) {
+export function addPost(input: BareCheckInput, identity: AnonymousIdentity, analysis: BareCheckAnalysis) {
   const now = new Date().toISOString();
   const post: ReactionPost = {
     ...input,
@@ -184,7 +184,7 @@ export function toggleFollow(productId?: number) {
   return next;
 }
 
-export function analyzeGlowCheck(input: GlowCheckInput): GlowCheckAnalysis {
+export function analyzeBareCheck(input: BareCheckInput): BareCheckAnalysis {
   const symptoms = input.symptoms.map((symptom) => symptom.toLowerCase());
   const severity = input.severity.toLowerCase();
   const actives = input.mixedActives.map((active) => active.toLowerCase());
@@ -193,7 +193,7 @@ export function analyzeGlowCheck(input: GlowCheckInput): GlowCheckAnalysis {
   const early = input.timeline === "Same day" || input.timeline === "2-3 days";
   const warnings = buildMixedActiveWarnings(input.mixedActives);
 
-  let recommendation: GlowCheckAnalysis["recommendation"] = "Safe to continue carefully";
+  let recommendation: BareCheckAnalysis["recommendation"] = "Safe to continue carefully";
   let explanation = "Your notes do not show an obvious urgent pattern. Keep changes slow and watch how your skin responds.";
 
   if (has("Swelling") || has("Trouble breathing") || has("Fast-spreading rash") || severity === "urgent") {
@@ -310,7 +310,7 @@ function seedPosts(): ReactionPost[] {
     {
       id: "seed-1",
       anonymousUserId: "seed",
-      anonymousName: "Anonymous Glow #2048",
+      anonymousName: "Anonymous Bare #2048",
       productId: 0,
       productName: "Minimalist 2% Salicylic Acid Serum",
       productKind: "Serum",

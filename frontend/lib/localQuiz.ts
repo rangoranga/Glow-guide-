@@ -17,7 +17,7 @@ export interface LocalRecommendationProduct extends Product {
   reason?: string;
 }
 
-const LOCAL_QUIZ_KEY = "glowguide_local_quizzes";
+const LOCAL_QUIZ_KEY = "bareiq_local_quizzes";
 
 export function saveLocalQuiz(profile: Omit<LocalQuizProfile, "id" | "createdAt">) {
   const quiz: LocalQuizProfile = {

@@ -1,4 +1,4 @@
-# GlowGuide Web Deployment
+# BareIQ Web Deployment
 
 This app can be deployed publicly for free as a demo/MVP.
 
@@ -34,7 +34,7 @@ Settings:
 Environment variables:
 
 - `DATABASE_URL`: your Supabase Postgres connection string
-- `FRONTEND_URL`: your Vercel app URL, for example `https://glowguide.vercel.app`
+- `FRONTEND_URL`: your Vercel app URL, for example `https://bareiq.vercel.app`
 
 The backend auto-creates tables and seeds the product database on startup.
 
@@ -51,7 +51,7 @@ Settings:
 
 Environment variable:
 
-- `NEXT_PUBLIC_API_BASE_URL`: your Render backend URL, for example `https://glowguide-api.onrender.com`
+- `NEXT_PUBLIC_API_BASE_URL`: your Render backend URL, for example `https://bareiq-api.onrender.com`
 
 ## 5. Final Check
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Suspense } from "react";
-import { consumePendingDestination, getGlowGuideUser, saveGlowGuideUser, savePendingDestination } from "@/lib/session";
+import { consumePendingDestination, getBareIQUser, saveBareIQUser, savePendingDestination } from "@/lib/session";
 
 export default function LoginPage() {
   return (
@@ -25,14 +25,14 @@ function LoginContent() {
   useEffect(() => {
     const next = searchParams.get("next");
     if (next) savePendingDestination(next);
-    if (getGlowGuideUser()) {
+    if (getBareIQUser()) {
       router.replace(consumePendingDestination(next || "/quiz"));
     }
   }, [router, searchParams]);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    saveGlowGuideUser({ name, email, skinGoal });
+    saveBareIQUser({ name, email, skinGoal });
     router.push(consumePendingDestination("/quiz"));
   };
 
@@ -42,7 +42,7 @@ function LoginContent() {
       <div className="relative z-10 mx-auto grid min-h-[calc(100vh-5rem)] max-w-5xl items-center gap-8 md:grid-cols-[0.9fr_1.1fr]">
         <section>
           <Link href="/" className="text-2xl font-black gradient-text">
-            GlowGuide
+            BareIQ
           </Link>
           <h1 className="mt-8 text-4xl font-black md:text-6xl">One quick intro, then your skin tools open.</h1>
           <p className="mt-4 text-gray-300">
@@ -56,13 +56,13 @@ function LoginContent() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl border border-gray-800 bg-white/[0.06] p-6"
         >
-          <h2 className="text-2xl font-bold">Create your GlowGuide profile</h2>
+          <h2 className="text-2xl font-bold">Create your BareIQ profile</h2>
           <label className="mt-5 block text-sm text-gray-300">
             Name or display alias
             <input
               value={name}
               onChange={(event) => setName(event.target.value)}
-              placeholder="Sriranka or Anonymous Glow"
+              placeholder="Sriranka or Anonymous Bare"
               className="mt-2 w-full rounded-xl border border-gray-700 bg-dark-800 px-4 py-3 text-white outline-none focus:border-primary-400"
               required
             />
@@ -79,7 +79,7 @@ function LoginContent() {
             />
           </label>
           <label className="mt-4 block text-sm text-gray-300">
-            What should GlowGuide help with first?
+            What should BareIQ help with first?
             <textarea
               value={skinGoal}
               onChange={(event) => setSkinGoal(event.target.value)}

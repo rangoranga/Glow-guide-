@@ -7,7 +7,7 @@ import { LoginGate } from "@/components/Auth/LoginGate";
 import {
   AnonymousIdentity,
   ReactionPost,
-  analyzeGlowCheck,
+  analyzeBareCheck,
   addPost,
   createIdentity,
   getFollows,
@@ -16,8 +16,8 @@ import {
   summarizePosts,
   toggleFollow,
   updatePost,
-} from "@/lib/glowcheck";
-import { gatedPath, getGlowGuideUser } from "@/lib/session";
+} from "@/lib/barecheck";
+import { gatedPath, getBareIQUser } from "@/lib/session";
 
 const voteLabels = ["Same happened to me", "This helped me", "Helpful", "Report"];
 
@@ -80,7 +80,7 @@ export default function CommunityPage() {
 
   const requireIdentity = () => {
     if (identity) return identity;
-    const user = getGlowGuideUser();
+    const user = getBareIQUser();
     const nextIdentity = createIdentity(alias || user?.name);
     setIdentity(nextIdentity);
     return nextIdentity;
@@ -102,7 +102,7 @@ export default function CommunityPage() {
       photoVisibility: "private" as const,
       intent: "Post experience" as const,
     };
-    const analysis = analyzeGlowCheck(input);
+    const analysis = analyzeBareCheck(input);
     addPost(input, nextIdentity, analysis);
     setPosts(getPosts());
     setComposerOpen(false);
@@ -154,11 +154,11 @@ export default function CommunityPage() {
       <div className="relative z-10 mx-auto max-w-6xl">
         <header className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <Link href="/" className="text-2xl font-black text-white">
-            GlowGuide
+            BareIQ
           </Link>
           <nav className="flex flex-wrap gap-3 text-sm">
-            <Link className="rounded-full border border-white/15 px-4 py-2 text-white/70 hover:border-white hover:text-white" href={gatedPath("/glowcheck")}>
-              GlowCheck
+            <Link className="rounded-full border border-white/15 px-4 py-2 text-white/70 hover:border-white hover:text-white" href={gatedPath("/barecheck")}>
+              BareCheck
             </Link>
             <Link className="rounded-full border border-white/15 px-4 py-2 text-white/70 hover:border-white hover:text-white" href={gatedPath("/results")}>
               Results
@@ -169,9 +169,9 @@ export default function CommunityPage() {
         <section className="mb-8 grid gap-5 lg:grid-cols-[1fr_0.8fr]">
           <div>
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-white/45">Community reactions</p>
-            <h1 className="text-4xl font-black md:text-6xl">GlowTalk community.</h1>
+            <h1 className="text-4xl font-black md:text-6xl">BareTalk community.</h1>
             <p className="mt-4 max-w-2xl text-white/60">
-              A skincare discussion feed for product reactions, routines, and real user updates. It works like a forum, but it feels like GlowGuide.
+              A skincare discussion feed for product reactions, routines, and real user updates. It works like a forum, but it feels like BareIQ.
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
@@ -216,14 +216,14 @@ export default function CommunityPage() {
               {item}
             </button>
           ))}
-          <Link href={gatedPath("/glowcheck")} className="rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-white/65">
+          <Link href={gatedPath("/barecheck")} className="rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-white/65">
             Structured reaction check
           </Link>
         </section>
 
         {composerOpen && (
           <form onSubmit={publishDiscussion} className="mb-6 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-            <h2 className="text-xl font-black">Start a GlowTalk thread</h2>
+            <h2 className="text-xl font-black">Start a BareTalk thread</h2>
             <input
               value={discussionTitle}
               onChange={(event) => setDiscussionTitle(event.target.value)}
@@ -269,7 +269,7 @@ export default function CommunityPage() {
             <div>
               <h2 className="text-2xl font-black">{activeProduct === "All products" ? "Reaction summary" : activeProduct}</h2>
               <p className="mt-2 text-sm text-white/50">
-                {summary.riskLabel}. This does not mean the product is unsafe for everyone. It means verified GlowGuide reports show a pattern among some users.
+                {summary.riskLabel}. This does not mean the product is unsafe for everyone. It means verified BareIQ reports show a pattern among some users.
               </p>
             </div>
             {activeProduct !== "All products" && (
@@ -385,7 +385,7 @@ function ReactionCard({
           ))}
           {post.verifiedStatus && (
             <span className="rounded-full border border-white bg-white px-3 py-1 text-xs font-bold text-black">
-              GlowGuide reviewed
+              BareIQ reviewed
             </span>
           )}
         </div>

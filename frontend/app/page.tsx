@@ -22,7 +22,7 @@ export default function Home() {
           </p>
 
           <h1 className="mb-6 text-6xl font-black tracking-tight text-white md:text-8xl">
-            GlowGuide
+            BareIQ
           </h1>
 
           <p className="mb-4 text-xl text-white/80 md:text-2xl">
@@ -42,14 +42,14 @@ export default function Home() {
                 whileTap={{ scale: 0.95 }}
                 className="rounded-full bg-white px-10 py-4 text-lg font-bold text-black transition hover:bg-white/90"
               >
-                Find Your Glow →
+                Find Your Match →
               </motion.button>
             </Link>
             <Link
-              href={gatedPath("/glowcheck")}
+              href={gatedPath("/barecheck")}
               className="rounded-full border border-white/25 px-8 py-4 text-lg font-bold text-white/80 transition hover:border-white hover:text-white"
             >
-              Try GlowCheck
+              Try BareCheck
             </Link>
             <Link
               href={gatedPath("/community")}
@@ -80,7 +80,7 @@ export default function Home() {
           <FeatureCard
             number="03"
             title="Safety-first checks"
-            description="GlowCheck helps you pause, simplify, or seek urgent care when symptoms look concerning"
+            description="BareCheck helps you pause, simplify, or seek urgent care when symptoms look concerning"
           />
         </motion.div>
 
@@ -119,7 +119,7 @@ export default function Home() {
             Built by Srirankavarsine Bhupathe
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-white/60">
-            GlowGuide is shaped around a simple idea: skincare advice should feel personal, understandable, and safer to act on.
+            BareIQ is shaped around a simple idea: skincare advice should feel personal, understandable, and safer to act on.
           </p>
           <a
             href="https://www.linkedin.com/in/srirankavarsinebhupathe/"

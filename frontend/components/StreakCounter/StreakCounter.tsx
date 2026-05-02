@@ -9,8 +9,8 @@ export function StreakCounter() {
 
   useEffect(() => {
     // Load streak from localStorage
-    const savedStreak = localStorage.getItem("glowguide-streak");
-    const savedCheckin = localStorage.getItem("glowguide-last-checkin");
+    const savedStreak = localStorage.getItem("bareiq-streak");
+    const savedCheckin = localStorage.getItem("bareiq-last-checkin");
 
     if (savedStreak) {
       setStreak(parseInt(savedStreak, 10));
@@ -30,8 +30,8 @@ export function StreakCounter() {
     setStreak(newStreak);
     setLastCheckin(today);
 
-    localStorage.setItem("glowguide-streak", newStreak.toString());
-    localStorage.setItem("glowguide-last-checkin", today);
+    localStorage.setItem("bareiq-streak", newStreak.toString());
+    localStorage.setItem("bareiq-last-checkin", today);
   };
 
   const isToday = lastCheckin === new Date().toDateString();

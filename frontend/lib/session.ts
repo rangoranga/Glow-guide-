@@ -1,4 +1,4 @@
-export interface GlowGuideUser {
+export interface BareIQUser {
   id: string;
   name: string;
   email: string;
@@ -6,20 +6,20 @@ export interface GlowGuideUser {
   createdAt: string;
 }
 
-const USER_KEY = "glowguide_user";
-const PENDING_DESTINATION_KEY = "glowguide_pending_destination";
+const USER_KEY = "bareiq_user";
+const PENDING_DESTINATION_KEY = "bareiq_pending_destination";
 
-export function getGlowGuideUser(): GlowGuideUser | null {
+export function getBareIQUser(): BareIQUser | null {
   if (typeof window === "undefined") return null;
   const stored = window.localStorage.getItem(USER_KEY);
-  return stored ? (JSON.parse(stored) as GlowGuideUser) : null;
+  return stored ? (JSON.parse(stored) as BareIQUser) : null;
 }
 
-export function saveGlowGuideUser(input: { name: string; email: string; skinGoal: string }) {
-  const existing = getGlowGuideUser();
-  const user: GlowGuideUser = {
+export function saveBareIQUser(input: { name: string; email: string; skinGoal: string }) {
+  const existing = getBareIQUser();
+  const user: BareIQUser = {
     id: existing?.id || crypto.randomUUID(),
-    name: input.name.trim() || "GlowGuide Member",
+    name: input.name.trim() || "BareIQ Member",
     email: input.email.trim(),
     skinGoal: input.skinGoal.trim(),
     createdAt: existing?.createdAt || new Date().toISOString(),

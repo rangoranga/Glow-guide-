@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { buildRetailSearchLinks } from "@/lib/glowcheck";
+import { buildRetailSearchLinks } from "@/lib/barecheck";
 import { gatedPath } from "@/lib/session";
 
 export interface Product {
@@ -131,10 +131,10 @@ export function ProductCard({ product, matchScore, reason, index }: Props) {
 
       <div className="mb-4 flex gap-2">
         <Link
-          href={gatedPath(`/glowcheck?product=${encodeURIComponent(`${product.brand} ${product.name}`)}`)}
+          href={gatedPath(`/barecheck?product=${encodeURIComponent(`${product.brand} ${product.name}`)}`)}
           className="rounded-full border border-accent-400/40 px-4 py-2 text-sm font-semibold text-accent-200 hover:border-accent-300 hover:text-white"
         >
-          GlowCheck
+          BareCheck
         </Link>
         <Link
           href={gatedPath(`/community?product=${encodeURIComponent(`${product.brand} ${product.name}`)}`)}

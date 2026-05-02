@@ -1,4 +1,4 @@
-# GlowGuide ✨
+# BareIQ ✨
 
 **Your skincare BFF that actually gets you** 💅
 

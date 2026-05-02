@@ -9,7 +9,7 @@ import os
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="GlowGuide API",
+    title="BareIQ API",
     description="Gen Z skincare recommendation app for the Indian market",
     version="1.0.0",
 )
@@ -73,7 +73,7 @@ def startup_seed_products():
 @app.get("/")
 def root():
     return {
-        "message": "Welcome to GlowGuide API - Your personalized skincare companion",
+        "message": "Welcome to BareIQ API - Your personalized skincare companion",
         "docs": "/docs",
     }
 
