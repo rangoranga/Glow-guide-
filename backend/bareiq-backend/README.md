@@ -37,3 +37,9 @@ Open http://localhost:8000/docs
 ## Deploy notes
 - Set `FRONTEND_URL` to your frontend origin(s). Any `*.vercel.app` URL is already allowed by regex.
 - For persistent data set `DATABASE_URL` to a Postgres URL (`postgres://` is auto-normalized). SQLite on ephemeral hosts resets on redeploy but re-seeds on startup.
+
+### Deploying on Vercel
+- Vercel's Python runtime only supports 3.12, 3.13, 3.14 (no 3.11), so the version is pinned via `.python-version` instead of the old Heroku-style `runtime.txt`.
+- `app/main.py` exports `app`, which is a Vercel-supported entrypoint, so no extra `api/index.py` wrapper is needed.
+- SQLite will NOT work here: Vercel functions have a read-only filesystem outside `/tmp`, and `/tmp` doesn't persist across invocations or across the multiple instances Vercel spins up under load. You must set `DATABASE_URL` to a real Postgres instance (Vercel Postgres, Neon, Supabase, etc.) in the project's Environment Variables before deploying, or the quiz submit / product seed endpoints will fail or silently lose data.
+- The `Procfile` is left in for Render/Heroku but Vercel ignores it entirely.
